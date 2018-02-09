@@ -1,9 +1,17 @@
 import * as express from 'express';
-import * as config from './../config.json';
+import * as expressGraphQL from 'express-graphql';
+import {schema} from './graphql';
+import * as _ from './../config.json';
 
 // Create Express server
 const app = express();
+const config = <any>(_);
 
-app.listen(8080, () => {
-    console.log("Server is running at port 8080");
+app.use('/graphql', expressGraphQL({
+    schema,
+    graphiql: true
+}));
+
+app.listen(config.port, () => {
+    console.log(`Server is running at port ${config.port}`);
 })

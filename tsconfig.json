@@ -5,7 +5,10 @@
     "outDir": "dist",
     "rootDir": "src",
     "typeRoots": [
-      "./typings/"
+      "./typings/",
+      "node_modules/@types",
+      "node_modules/graphql-typings"
+
     ]
   }
 }
