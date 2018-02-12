@@ -12,13 +12,16 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@types/mongoose": "^5.0.1",
     "body-parser": "^1.18.2",
     "express": "^4.16.2",
     "express-graphql": "^0.6.11",
+    "faker": "^4.1.0",
     "graphql": "^0.13.0",
     "graphql-date": "^1.0.3",
     "graphql-tools": "^2.21.0",
     "graphql-typings": "^0.0.1-beta-2",
+    "mongoose": "^5.0.4",
     "typescript": "^2.7.1"
   },
   "devDependencies": {
