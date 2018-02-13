@@ -2,7 +2,7 @@ import * as faker from 'faker';
 import {User, Group, Message} from './connect';
 
 export function prepopulate() {
-    let user, user2, group;
+    let user, user2, group, message;
     User.remove({})
         .then((res) => {
             return Message.remove({});
@@ -39,7 +39,10 @@ export function prepopulate() {
             return group.addUsers([user, user2])
         })
         .then((res: any) => {
-            let message = new Message({
+            return user.addToGroup(group);
+        })
+        .then((res: any) => {
+            message = new Message({
                 to: group.id,
                 from: user._id,
                 text: "Hey yo!",
@@ -48,8 +51,11 @@ export function prepopulate() {
 
             return message.save();
         })
-        .then((message: any) => {
+        .then((res: any) => {
             return (<any>Group).saveMessage(message)
+        })
+        .then((res: any) => {
+            return user.addMessage(message);
         })
         .then((res: any) => {
             console.log("Message saved")

@@ -22,7 +22,7 @@ export const UserSchema = new Schema({
         messageId: Schema.Types.ObjectId
     }],
     friends: [{
-        friendId: Schema.Types.ObjectId
+        userId: Schema.Types.ObjectId
     }],
     groups: [{
         groupId: Schema.Types.ObjectId
@@ -32,7 +32,23 @@ export const UserSchema = new Schema({
 UserSchema.methods.addFriend = function(user2: any){
     let user = this;
     user.friends.push({
-        messageId: user2._id
+        userId: user2._id
+    })
+    return user.save()
+}
+
+UserSchema.methods.addToGroup = function(group: any) {
+    let user = this;
+    user.groups.push({
+        groupId: group._id
+    });
+    return user.save();
+}
+
+UserSchema.methods.addMessage = function(message: any){
+    let user = this;
+    user.messages.push({
+        messageId: message._id
     })
     return user.save()
 }
@@ -40,10 +56,11 @@ UserSchema.methods.addFriend = function(user2: any){
 UserSchema.statics.findUsers = function(userIds: any[]) {
     let users = [],
         User = this;
+    console.log(users);
     return new Promise((resolve, reject) => {
         Observable.from(userIds)
-                    .mergeMap(userId => {
-                        return Observable.fromPromise(User.findById(userId.userId));
+                    .mergeMap(user => {
+                        return Observable.fromPromise(User.findById(user.userId));
                     })
                     .subscribe((user) => {
                         users.push(user)

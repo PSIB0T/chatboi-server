@@ -4,6 +4,9 @@ import {GraphQLObjectType,
         GraphQLList
 } from 'graphql';
 import {GroupType, MessageType} from './'
+import { Message, Group, User } from '../../mongoose/connect';
+Group;
+MessageType
 
 export const UserType = new GraphQLObjectType({
 name: 'User',
@@ -11,8 +14,25 @@ name: 'User',
         id: {type: GraphQLID },
         email: {type: GraphQLString },
         username: {type: GraphQLString },
-        messages: {type: new GraphQLList(MessageType)},
-        friends: {type: new GraphQLList(UserType)},
-        groups: {type: new GraphQLList(GroupType)}
+        messages: {
+            type: new GraphQLList(MessageType),
+            resolve(parentVal){
+                return (<any>Message).findMessages(parentVal.messages);
+            }
+        },
+        friends: {
+            type: new GraphQLList(UserType),
+            resolve(parentVal){
+                console.log(parentVal.friends);
+                return (<any>User).findUsers(parentVal.friends);
+            }
+        },
+        groups: {
+            type: new GraphQLList(GroupType),
+            resolve(parentVal){
+                console.log(parentVal.groups);
+                return (<any>Group).findGroups(parentVal.groups);
+            }
+        }
     })
 })

@@ -27,6 +27,24 @@ export const GroupSchema = new Schema({
     }]
 })
 
+GroupSchema.statics.findGroups = function(groupIds: any[]) {
+    let groups = [],
+        User = this;
+    return new Promise((resolve, reject) => {
+        Observable.from(groupIds)
+                    .mergeMap(groupId => {
+                        return Observable.fromPromise(Group.findById(groupId.groupId));
+                    })
+                    .subscribe((group) => {
+                        groups.push(group)
+                    }, (err) => {
+                        reject(err);
+                    }, () => {
+                        resolve(groups);
+                    });      
+    })
+}
+
 GroupSchema.methods.addUsers = function(users: any[]){
     const group = this;
     users.map((user) => group.users.push({
@@ -42,3 +60,4 @@ GroupSchema.statics.saveMessage = function(message: any) {
                     return group.save();
                 })
 }
+
