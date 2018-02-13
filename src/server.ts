@@ -2,8 +2,7 @@ import * as express from 'express';
 import * as expressGraphQL from 'express-graphql';
 import {schema} from './graphql';
 import * as _ from './../config.json';
-
-import {prepopulate} from './mongoose/prepopulate';
+import { prepopulate } from './mongoose/prepopulate';
 
 prepopulate();
 
